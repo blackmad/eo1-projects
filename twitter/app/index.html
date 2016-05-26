@@ -1,9 +1,6 @@
 <script type="text/javascript" src="third_party/codebird.js"></script>
 <script src="third_party/underscore.js"></script>
 <script src='third_party/jquery.min.js'></script>
-<script src='third_party/tinycolor.js'></script>
-<script src='third_party/color-thief.min.js'></script>
-<script src='third_party/jquery.min.js'></script>
 
 <script type="text/javascript" src="auth.js"></script>
 <script type="text/javascript" src="dummy_data.js"></script>
@@ -14,34 +11,18 @@ $(document).ready(make_page)
 </script>
 
 <style>
-
-
-.blur {
-    background-size:cover;
-    -webkit-filter: blur(13px);
-    -moz-filter: blur(13px);
-    -o-filter: blur(13px);
-    -ms-filter: blur(13px);
-    filter: blur(13px);
-    position:absolute;
-    width:100%;
-    height:100%;
+body {
+    margin: 0;
 }
-
-
-
-#text {
-   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-   font-size: 300%;
-   padding: 20%;
-   text-align: center;
-   position:absolute;
+iframe {
+    display: block;       /* iframes are inline by default */
+    background: #000;
+    border: none;         /* Reset default border */
+    height: 100vh;        /* Viewport-relative units */
+    width: 100vw;
 }
-
-
 </style>
 
 <body>
-  <div class="blur"></div>
-  <span id="text"/>
+  <iframe id="iframe"/>
 </body>

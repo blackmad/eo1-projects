@@ -1,34 +1,24 @@
-/* TODO
-- try a version where the image fills the height or the width, not both
-- try a version where we only blur behind the text
-*/
-
 function process_status(status) {
-  console.log(status)
   var text = status['text']
   var images = []
-  if (status['entities'] 
+  if (status['entities']
     && status['entities']['media']) {
     images = _.map(status['entities']['media'], function(m) { return m['media_url'] })
   }
 
+  var visualizations = [
+    //'visualizations/blur/blur.html',
+    'visualizations/clean/clean.html'
+  ]
   if (images.length > 0) {
-    $('.blur')[0].style.backgroundImage = "url('" + images[0]+ "')";
-
-    text = text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
-    $('#text').html(text);
-
-    var img = new Image()
-    img.onload = function(i) {
-      var colorThief = new ColorThief();
-      var color = colorThief.getColor(img)
-      var c = tinycolor({r: color[0], g: color[1], b: color[2]})
-      console.log(c.toHexString())
-
-      $('#text').css('color', c.complement().toHexString());
-    }
-    img.src = '/proxy/' + images[0]
+    document.getElementById('iframe').src = _.sample(visualizations) + '?' + $.param({
+      'text': text,
+      'image': images[0]
+    })
+    return true;
   }
+
+  return false;
 }
 
 function process_search_response(data) {
@@ -51,5 +41,5 @@ function make_page() {
   //     true
   // );
 
- process_search_response(dummy_data);
+  process_search_response(dummy_data);
 }

@@ -1,0 +1,72 @@
+<script src="../third_party/underscore.js"></script>
+<script src='../third_party/jquery.min.js'></script>
+<script src='../third_party/tinycolor.js'></script>
+<script src='../third_party/color-thief.min.js'></script>
+<script src='../third_party/jquery.min.js'></script>
+
+<script src='../common.js'></script>
+
+<script type="text/javascript">
+
+var make_page = make_make_page(
+  function(event) {
+    var img = event.target;
+    var colorThief = new ColorThief();
+    var color = colorThief.getColor(img)
+    var c = tinycolor({r: color[0], g: color[1], b: color[2]})
+    console.log(c.toHexString())
+
+    $('#text').css('color', c.complement().toHexString());
+  }
+)
+
+$(document).ready(make_page);
+</script>
+
+<style>
+
+
+.image{
+    background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
+    display: block;
+
+    -webkit-filter: blur(13px);
+    -moz-filter: blur(13px);
+    -o-filter: blur(13px);
+    -ms-filter: blur(13px);
+    filter: blur(13px);
+
+    width:100%;
+    height:100%;
+}
+
+
+
+#text {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  font-size: 300%;
+  position: absolute; /*newly added*/
+  width: 50%;
+  height: 40%;
+  top: 30%;
+  left: 25%;
+
+  display: flex;
+  justify-content: center; /* align horizontal */
+  align-items: center; /* align vertical */
+
+  vertical-align: middle;
+  text-align: center;
+  z-index: 10000;
+}
+
+
+</style>
+
+<body>
+  <div class="image"></div>
+  <div id="text"/>
+</body>
