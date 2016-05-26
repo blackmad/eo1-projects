@@ -15,7 +15,17 @@ http://localhost:8888/app/visualizations/clean/clean.html?image=http://www.ealym
 
 <script type="text/javascript">
 function make_page() {
-  make_make_page()();
+  function on_image_load(event) {
+    var img = event.target;
+    var is_img_widescreen = img.width > img.height;
+    var is_window_widescreen = window.innerWidth > window.innerHeight;
+    var text_box_height = $('#text').height();
+    if (!is_window_widescreen && is_img_widescreen) {
+      $('.image').css('background-position-y', (window.innerHeight - text_box_height - img.height) / 2);
+    }
+  }
+
+  make_make_page(on_image_load)();
   $('#text').textfill({
     maxFontPixels: 36,
     'debug': true
