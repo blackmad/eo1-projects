@@ -27,7 +27,7 @@ function make_page() {
 
       if (displayed_height < text_top.top) {
         var offset = (text_top.top - displayed_height) / 2
-        $('#image').css('background-position', '50% ' + offset);
+        $('.image').css('background-position', '50% ' + offset);
       }
     }
   }
@@ -44,7 +44,7 @@ body {
   background-color: lightslategrey
 }
 
-#image {
+.image {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

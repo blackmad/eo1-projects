@@ -32,10 +32,10 @@ function make_make_page(image_onload_handler) {
     $('#author_name').html(params['author_name'])
     $('#author_screenname').html(params['author_screenname'])
 
-    // if (image_onload_handler) {
-    //   var img = new Image()
-    //   img.onload = image_onload_handler;
-    //   img.src = proxyImage(image)
-    // }
+    if (image_onload_handler) {
+      var img = new Image()
+      img.onload = image_onload_handler;
+      img.src = proxyImage(image)
+    }
   }
 }

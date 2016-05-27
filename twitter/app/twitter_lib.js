@@ -22,8 +22,8 @@ function process_status(status) {
   }
 
   var visualizations = [
-    'blur',
-    // 'clean',
+    // 'blur',
+    'clean'
   ]
 
   var visualizations_addresses = _.map(visualizations, function(v) {
