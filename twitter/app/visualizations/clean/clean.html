@@ -2,14 +2,15 @@
 
 http://localhost:8888/app/visualizations/clean/clean.html?image=http://www.ealymaysartworks.com/media/k2/items/cache/d722f2a14a84b7ad8053262f61a6106b_L.jpg&text=this%20is%20the%20text%20here%20it%20is%20whole%20lotta%20texting%20going%20on
 
+http://localhost:8888/app/visualizations/clean/clean.html?image=http://pbs.twimg.com/media/CilcQ1EXIAEHYEw.jpg&text=1j%20klj%20klj%20klj%20kl%20jkl%20jkl%20jkl%20jkl%20jkl%20j%20klj%20klj%20kl%20jklj%20klj%20kl%20jkl%20jkl%20jkl%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j
+
 -->
 
 <script src="../third_party/underscore.js"></script>
 <script src='../third_party/jquery.min.js'></script>
 <script src='../third_party/tinycolor.js'></script>
 <script src='../third_party/color-thief.min.js'></script>
-<script src='../third_party/jquery.min.js'></script>
-<script src='../third_party/jquery.textfill.js'></script>
+<script src='../third_party/flowtype.js'></script>
 
 <script src='../common.js'></script>
 
@@ -17,19 +18,21 @@ http://localhost:8888/app/visualizations/clean/clean.html?image=http://www.ealym
 function make_page() {
   function on_image_load(event) {
     var img = event.target;
-    var is_img_widescreen = img.width > img.height;
+    var is_img_widescreen = img.width >= img.height;
     var is_window_widescreen = window.innerWidth > window.innerHeight;
     var text_box_height = $('#text').height();
     if (!is_window_widescreen && is_img_widescreen) {
-      $('.image').css('background-position-y', (window.innerHeight - text_box_height - img.height) / 2);
+      var displayed_height = img.height * (window.innerWidth / img.width)
+      var text_top = $(document.querySelector("#outer_text")).position()
+
+      if (displayed_height < text_top.top) {
+        var offset = (text_top.top - displayed_height) / 2
+        $('#image').css('background-position', '50% ' + offset);
+      }
     }
   }
 
   make_make_page(on_image_load)();
-  $('#text').textfill({
-    maxFontPixels: 36,
-    'debug': true
-  });
 }
 $(document).ready(make_page)
 </script>
@@ -38,9 +41,10 @@ $(document).ready(make_page)
 
 body {
   margin: 0;
+  background-color: lightslategrey
 }
 
-.image {
+#image {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -48,7 +52,7 @@ body {
   height:100%;
 }
 
-#text {
+#outer_text {
   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   /*font-size: 300%;*/
   position: absolute; /*newly added*/
@@ -61,19 +65,31 @@ body {
   text-align: center;
   z-index: 10000;
 
-  background: black;
   color: white;
-  bottom: 0px;
-  width: 80%;
-  height: 20%;
-  padding: 20px;
-
+  bottom: 5%;
+  width: 60%;
+  height: 15%;
+  padding: 30px;
+  background: rgba(0,0,0,0.4);
 }
 
+#author_box {
+  width: 100px;
+  display: none;
+}
 
 </style>
 
 <body>
   <div class="image"></div>
-  <div id="text"/>
+  <div id="outer_text">
+    <div id="text"></div>
+    <div id="author_box">
+      <span id="author_name"></span>
+      <span id="author_screenname"></span>
+    </div>
+  </div>
+  <script>
+    $('body').flowtype({})
+  </script>
 </body>

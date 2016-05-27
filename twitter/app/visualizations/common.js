@@ -1,9 +1,9 @@
 function parseQuery(qstr) {
     var query = {};
-    var a = qstr.substr(1).split('&');
+    var a = qstr.substr(1).replace(/\+/g, ' ').split('&');
     for (var i = 0; i < a.length; i++) {
         var b = a[i].split('=');
-        query[decodeURIComponent(b[0])] = decodeURIComponent(b[1] || '');
+        query[decodeURIComponent(b[0])] = decodeURIComponent(b[1] || '')
     }
     return query;
 }
@@ -11,7 +11,11 @@ function parseQuery(qstr) {
 var params = parseQuery(window.location.search);
 
 function proxyImage(image) {
-  return '/proxy/' + image;
+  if (window.location.protocol == "file:") {
+    return image;
+  } else {
+    return '/proxy/' + image;
+  }
 }
 
 function make_make_page(image_onload_handler) {
@@ -19,15 +23,19 @@ function make_make_page(image_onload_handler) {
     var image = params['image'];
     var text = params['text'];
     
-    $('.image')[0].style.backgroundImage = "url('" + image + "')";
+    $('.image').css('background-image', "url('" + image + "')");
 
     text = text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
+    text = text.replace(/: *$/, '');
     $('#text').html(text);
 
-    if (image_onload_handler) {
-      var img = new Image()
-      img.onload = image_onload_handler;
-      img.src = proxyImage(image)
-    }
+    $('#author_name').html(params['author_name'])
+    $('#author_screenname').html(params['author_screenname'])
+
+    // if (image_onload_handler) {
+    //   var img = new Image()
+    //   img.onload = image_onload_handler;
+    //   img.src = proxyImage(image)
+    // }
   }
 }
