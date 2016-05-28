@@ -2,6 +2,8 @@ var needsUpdating = true;
 var statuses = [];
 var intervalId = null;
 var last_id = null;
+var seen_ids = [];
+var searchInProgress = false;
 
 function parseQuery(qstr) {
     var query = {};
@@ -23,8 +25,16 @@ function process_status(status) {
 
   var visualizations = [
     // 'blur',
-    'clean'
+    // 'clean',
+    // 'bare',
+    // 'bare_bg',
+    'pixelate',
   ]
+
+  var params = parseQuery(window.location.search);
+  if (params['viz']) {
+    visualizations = visualizations.intersection(params['viz'].split(','));
+  }
 
   var visualizations_addresses = _.map(visualizations, function(v) {
     return 'visualizations/' + v + '/' + v + '.html'
@@ -45,25 +55,57 @@ function process_status(status) {
 }
 
 function process_search_response(data) {
-  statuses = statuses.concat(data['statuses']);
-  maybeDoUpdate();
+  searchInProgress = false;
+
+  console.log('got ' + data['statuses'].length + ' statuses')
+
+  new_statuses = _.filter(data['statuses'], function(status) {
+    return !_.contains(seen_ids, status['id_str']);
+  })
+
+  console.log(new_statuses.length + ' were new')
+
+  if (new_statuses.length == 0) {
+    updateSearch({'searchOlder': true});
+  } else {
+    statuses = statuses.concat(new_statuses);
+    seen_ids = seen_ids.concat(_.map(new_statuses, function(s) { return s['id_str'] }));
+
+    if (statuses.length == 0) {
+      if (intervalId) {
+        clearInterval(intervalId)
+      }
+    } else {
+      maybeDoUpdate();
+    }
+  }
 }
 
 function maybeDoUpdate() {
-  if (needsUpdating && statuses) {
+  if (needsUpdating && statuses.length > 0) {
     var status = statuses.shift()
+
     needsUpdating = false;
     process_status(status)
     if (!intervalId) {
-      intervalId = setInterval(forceUpdate, 2000);
+      var params = parseQuery(window.location.search);
+      var interval = parseInt(params['interval'] || '2000')
+      intervalId = setInterval(forceUpdate, interval);
     }
-  }
-  if (statuses.length < 2) {
-    updateSearch();
+  
+    if (statuses.length < 2) {
+      updateSearch();
+    }
   }
 }
 
-function updateSearch() {
+function updateSearch(options) {
+  if (searchInProgress) { return; }
+  searchInProgress = true;
+
+  options = options || {}
+  var searchOlder = options['searchOlder'] || false;
+
   var cb = new Codebird;
   cb.setConsumerKey(YOURKEY, YOURSECRET);
   cb.setToken(YOURTOKEN, YOURTOKENSECRET);
@@ -73,8 +115,19 @@ function updateSearch() {
   var params = {
     q: query + " filter:twimg",
     result_type: 'popular',
-    count: 100
+    count: 10
   };
+
+  if (searchOlder) {
+    var max_id = _.min(seen_ids)
+    console.log('searching older, starting from: ' + max_id)
+    params['max_id'] = max_id;
+  } else if (seen_ids.length > 0) {
+    var since_id = _.max(seen_ids)
+    console.log('searching newer, starting from: ' + since_id)
+    params['since_id'] = since_id;
+  }
+
   cb.__call(
       "search_tweets",
       params,
@@ -89,7 +142,13 @@ function forceUpdate() {
 }
 
 function make_page() {
-  // updateSearch();
-  process_search_response(dummy_data);
-  // process_status(dummy_data['statuses'][3])
+  var params = parseQuery(window.location.search);
+
+  if (params['debug'] == '1') {
+    process_status(dummy_data['statuses'][3])
+  } else if (params['debug']) {
+    process_search_response(dummy_data);
+  } else {
+    updateSearch();
+  }
 }

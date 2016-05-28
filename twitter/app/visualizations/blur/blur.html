@@ -12,13 +12,15 @@
 
 var make_page = make_make_page(
   function(event) {
-    var img = event.target;
-    var colorThief = new ColorThief();
-    var color = colorThief.getColor(img)
-    var c = tinycolor({r: color[0], g: color[1], b: color[2]})
-    console.log(c.toHexString())
+    if (shouldProxyImage()) {
+      var img = event.target;
+      var colorThief = new ColorThief();
+      var color = colorThief.getColor(img)
+      var c = tinycolor({r: color[0], g: color[1], b: color[2]})
+      console.log(c.toHexString())
 
-    $('#text').css('color', c.complement().toHexString());
+      $('#text').css('color', c.complement().toHexString());
+    }
   }
 )
 

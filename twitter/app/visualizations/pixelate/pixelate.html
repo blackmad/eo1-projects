@@ -1,10 +1,6 @@
-<!--
+<script src="third_party/close-pixelate.js"></script>
 
-http://localhost:8888/app/visualizations/clean/clean.html?image=http://www.ealymaysartworks.com/media/k2/items/cache/d722f2a14a84b7ad8053262f61a6106b_L.jpg&text=this%20is%20the%20text%20here%20it%20is%20whole%20lotta%20texting%20going%20on
-
-http://localhost:8888/app/visualizations/pixelate/pixelate.html?image=http://pbs.twimg.com/media/CilcQ1EXIAEHYEw.jpg&text=1j%20klj%20klj%20klj%20kl%20jkl%20jkl%20jkl%20jkl%20jkl%20j%20klj%20klj%20kl%20jklj%20klj%20kl%20jkl%20jkl%20jkl%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j
-
--->
+<script src="pixelate.js"></script>
 
 <script src="../third_party/underscore.js"></script>
 <script src='../third_party/jquery.min.js'></script>
@@ -12,16 +8,15 @@ http://localhost:8888/app/visualizations/pixelate/pixelate.html?image=http://pbs
 <script src='../third_party/color-thief.min.js'></script>
 <script src='../third_party/flowtype.js'></script>
 
+<!--
+http://localhost:8888/app/visualizations/pixelate/pixelate.html?image=http://pbs.twimg.com/media/CilcQ1EXIAEHYEw.jpg&text=1j%20klj%20klj%20klj%20kl%20jkl%20jkl%20jkl%20jkl%20jkl%20j%20klj%20klj%20kl%20jklj%20klj%20kl%20jkl%20jkl%20jkl%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j
+-->
+
 <script src='../common.js'></script>
 
 <script type="text/javascript">
 function make_page() {
-  function on_image_load(event) {
-    var img = event.target;
-    adjust_image_bg_for_text(img);
-  }
-
-  make_make_page(on_image_load)();
+  make_make_page(pixelate_img_load)();
 }
 $(document).ready(make_page)
 </script>
