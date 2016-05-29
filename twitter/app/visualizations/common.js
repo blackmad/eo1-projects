@@ -44,12 +44,16 @@ function make_make_page(image_onload_handler) {
     
     // $('.image').css('background-image', "url('" + image + "')");
 
-    text = text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
-    text = text.replace(/: *$/, '');
-    $('#text').html(text);
+    if (text) {
+      text = text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
+      text = text.replace(/: *$/, '');
+      $('#text').html(text);
 
-    $('#author_name').html(params['author_name'])
-    $('#author_screenname').html(params['author_screenname'])
+      $('#author_name').html(params['author_name'])
+      $('#author_screenname').html(params['author_screenname'])
+    } else {
+      $('body').addClass('notext')
+    }
 
     if (image_onload_handler) {
       var img = new Image()
