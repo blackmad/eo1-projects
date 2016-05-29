@@ -126,4 +126,5 @@ function pixelate_img_load(event) {
   console.log('setting pixelated bg')
   adjust_image_bg_for_text(img)
   $('.image').css('background-image', "url('" + canvas.toDataURL("image/png") + "')");
+  $.adaptiveBackground.run();
 }
