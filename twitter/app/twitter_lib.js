@@ -170,8 +170,9 @@ function updateSearch(options) {
 
   var params = parseQuery(window.location.search);
   var query = params['q'] || "NYC OR new york"
+  query += " filter:twimg";
   var my_params = {
-    q: query + " filter:twimg",
+    q: query,
     count: 100
   };
 
@@ -191,7 +192,7 @@ function updateSearch(options) {
 
   cb.__call(
       "search_tweets",
-      params,
+      my_params,
       process_search_response,
       true
   );
