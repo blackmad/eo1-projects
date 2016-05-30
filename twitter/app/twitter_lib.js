@@ -152,7 +152,7 @@ function updateSearch(options) {
   var params = {
     q: query + " filter:twimg",
     result_type: 'popular',
-    count: 10
+    count: 100
   };
 
   if (searchOlder) {
