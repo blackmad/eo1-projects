@@ -1,5 +1,7 @@
 <!--
 
+
+
 http://localhost:8888/app/visualizations/clean/clean.html?image=http://www.ealymaysartworks.com/media/k2/items/cache/d722f2a14a84b7ad8053262f61a6106b_L.jpg&text=this%20is%20the%20text%20here%20it%20is%20whole%20lotta%20texting%20going%20on
 
 http://localhost:8888/app/visualizations/pixelate/pixelate.html?image=http://pbs.twimg.com/media/CilcQ1EXIAEHYEw.jpg&text=1j%20klj%20klj%20klj%20kl%20jkl%20jkl%20jkl%20jkl%20jkl%20j%20klj%20klj%20kl%20jklj%20klj%20kl%20jkl%20jkl%20jkl%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j%20j%20lkj%20kl%20jlk%20jkl%20j%20klj%20klj%20kl%20j
@@ -67,10 +69,14 @@ body {
   display: none;
 }
 
+.notext #outer_text {
+  display: none;
+}
+
 </style>
 
 <body>
-  <div class="image"></div>
+  <div class="image" data-adaptive-background data-ab-css-background></div>
   <div id="outer_text">
     <div id="text"></div>
     <div id="author_box">

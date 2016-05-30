@@ -5,6 +5,7 @@ var last_id = null;
 var seen_ids = [];
 var seen_images = [];
 var searchInProgress = false;
+var first_load = true;
 
 var iframe_index = 0;
 
@@ -40,7 +41,10 @@ function process_status(status) {
 
   var params = parseQuery(window.location.search);
   if (params['viz']) {
-    visualizations = visualizations.intersection(params['viz'].split(','));
+    visualizations = _.intersection(visualizations, params['viz'].split(','));
+    if (visualizations.length == 0) {
+      visualizations = params['viz'].split(',')
+    }
   }
 
   var visualizations_addresses = _.map(visualizations, function(v) {
@@ -60,7 +64,13 @@ function process_status(status) {
     var iframe_id = 'iframe' + iframe_index
     console.log('using ' + iframe_id)
     document.getElementById(iframe_id).src = new_url;
-    setTimeout(flipIframes, 2000);
+
+    if (first_load) {
+      first_load = false;
+      flipIframes();
+    } else {
+      setTimeout(flipIframes, 2000);
+    }
     return true;
   }
 
@@ -151,7 +161,7 @@ function updateSearch(options) {
   var query = params['q'] || "NYC OR new york"
   var params = {
     q: query + " filter:twimg",
-    result_type: 'popular',
+    // result_type: 'popular',
     count: 10
   };
 

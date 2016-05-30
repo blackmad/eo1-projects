@@ -37,22 +37,36 @@ function adjust_image_bg_for_text(img) {
   }
 }
 
+function hideTextDisplay() {
+  $('body').addClass('notext')  
+  $('.textDisplay').hide()
+}
+
 function make_make_page(image_onload_handler) {
   return function() {
     var image = params['image'];
     var text = params['text'];
     
-    // $('.image').css('background-image', "url('" + image + "')");
+    $('.image').css('background-image', "url('" + image + "')");
+
+    if (params['hideText'] == 'yes') {
+      hideTextDisplay();
+    }
 
     if (text) {
       text = text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
       text = text.replace(/: *$/, '');
-      $('#text').html(text);
+      text = text.trim()
+      if (text.length > 0) { 
+        $('#text').html(text);
+      } else {
+        hideTextDisplay();
+      }
 
       $('#author_name').html(params['author_name'])
       $('#author_screenname').html(params['author_screenname'])
     } else {
-      $('body').addClass('notext')
+      hideTextDisplay()
     }
 
     if (image_onload_handler) {
