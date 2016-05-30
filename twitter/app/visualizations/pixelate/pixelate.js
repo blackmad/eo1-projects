@@ -75,9 +75,9 @@ var otherOptions = [
 
 var presets = _.map(originalPresets, function(preset) {
   return _.map(preset, function(line) {
-    if (line['resolution']) line['resolution'] = line['resolution'] / 4;
-    if (line['size']) line['size'] = line['size'] / 4;
-    if (line['offset']) line['offset'] = line['offset'] / 4;
+    if (line['resolution']) line['resolution'] = line['resolution'] / 2;
+    if (line['size']) line['size'] = line['size'] / 2;
+    if (line['offset']) line['offset'] = line['offset'] / 2;
     return line;
   });
 });

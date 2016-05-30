@@ -139,7 +139,7 @@ function maybeDoUpdate() {
       var interval = parseInt(params['interval'] || '2000')
       intervalId = setInterval(forceUpdate, interval);
     }
-  
+
     if (statuses.length < 2) {
       updateSearch();
     }
@@ -159,20 +159,23 @@ function updateSearch(options) {
 
   var params = parseQuery(window.location.search);
   var query = params['q'] || "NYC OR new york"
-  var params = {
+  var my_params = {
     q: query + " filter:twimg",
-    // result_type: 'popular',
-    count: 10
+    count: 100
   };
+
+  if (params['result_type']) {
+    my_params['result_type'] = params['result_type'];
+  }
 
   if (searchOlder) {
     var max_id = _.min(seen_ids)
     console.log('searching older, starting from: ' + max_id)
-    params['max_id'] = max_id;
+    my_params['max_id'] = max_id;
   } else if (seen_ids.length > 0) {
     var since_id = _.max(seen_ids)
     console.log('searching newer, starting from: ' + since_id)
-    params['since_id'] = since_id;
+    my_params['since_id'] = since_id;
   }
 
   cb.__call(
