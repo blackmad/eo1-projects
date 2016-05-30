@@ -31,6 +31,9 @@ function process_status(status) {
   var text = status['text']
   var images = get_images(status)
 
+  console.log('trying to process')
+  console.log(status)
+
   var visualizations = [
     // 'blur',
     // 'clean',
@@ -52,6 +55,7 @@ function process_status(status) {
   })
 
   if (images.length > 0) {
+    console.log('have images')
     new_url = _.sample(visualizations_addresses) + '?' + $.param({
       'text': text,
       'image': images[0],
@@ -95,7 +99,12 @@ function process_search_response(data) {
       return false;
     }
 
-    var images = get_images()
+    var images = get_images(status)
+    if (images.length == 0) {
+      console.log('discarding status because no images')
+      console.log(status)
+      return false;
+    }
     if (_.contains(seen_images, images[0])) {
       // dupe image
       console.log('discarding status because we\'ve already seen ' + images[0])
@@ -123,6 +132,7 @@ function process_search_response(data) {
         clearInterval(intervalId)
       }
     } else {
+      console.log('maybe do update')
       maybeDoUpdate();
     }
   }
@@ -130,6 +140,7 @@ function process_search_response(data) {
 
 function maybeDoUpdate() {
   if (needsUpdating && statuses.length > 0) {
+    console.log('have status, need update')
     var status = statuses.shift()
 
     needsUpdating = false;

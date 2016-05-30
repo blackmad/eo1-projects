@@ -13,6 +13,7 @@ http://localhost:8888/app/visualizations/pixelate/pixelate.html?image=http://pbs
 <script src='../third_party/tinycolor.js'></script>
 <script src='../third_party/color-thief.min.js'></script>
 <script src='../third_party/flowtype.js'></script>
+<script src='../third_party/jquery.adaptive-backgrounds.js'></script>
 
 <script src='../common.js'></script>
 
@@ -21,6 +22,7 @@ function make_page() {
   function on_image_load(event) {
     var img = event.target;
     adjust_image_bg_for_text(img);
+    $.adaptiveBackground.run();
   }
 
   make_make_page(on_image_load)();
