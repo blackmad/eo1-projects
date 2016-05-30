@@ -3,7 +3,10 @@ var statuses = [];
 var intervalId = null;
 var last_id = null;
 var seen_ids = [];
+var seen_images = [];
 var searchInProgress = false;
+
+var iframe_index = 0;
 
 function parseQuery(qstr) {
     var query = {};
@@ -15,13 +18,17 @@ function parseQuery(qstr) {
     return query;
 }
 
+function get_images(status) {
+  if (status && status['entities']
+    && status['entities']['media']) {
+    return _.map(status['entities']['media'], function(m) { return m['media_url'] })
+  }
+  return []
+}
+
 function process_status(status) {
   var text = status['text']
-  var images = []
-  if (status['entities']
-    && status['entities']['media']) {
-    images = _.map(status['entities']['media'], function(m) { return m['media_url'] })
-  }
+  var images = get_images(status)
 
   var visualizations = [
     // 'blur',
@@ -41,17 +48,28 @@ function process_status(status) {
   })
 
   if (images.length > 0) {
-    document.getElementById('iframe').src = _.sample(visualizations_addresses) + '?' + $.param({
+    new_url = _.sample(visualizations_addresses) + '?' + $.param({
       'text': text,
       'image': images[0],
       'author_name': status['user']['name'],
       'author_screenname': status['user']['screen_name'],
       'author_image': status['user']['profile_image_url']
     })
+
+    iframe_index = (iframe_index + 1) % 2
+    var iframe_id = 'iframe' + iframe_index
+    console.log('using ' + iframe_id)
+    document.getElementById(iframe_id).src = new_url;
+    setTimeout(flipIframes, 2000);
     return true;
   }
 
   return false;
+}
+
+function flipIframes() {
+  $('#body').toggleClass('state1 state2')
+  console.log('swapping iframes')
 }
 
 function process_search_response(data) {
@@ -60,7 +78,26 @@ function process_search_response(data) {
   console.log('got ' + data['statuses'].length + ' statuses')
 
   new_statuses = _.filter(data['statuses'], function(status) {
-    return !_.contains(seen_ids, status['id_str']);
+    if (_.contains(seen_ids, status['id_str'])) {
+      console.log('discarding status because we\'ve already seen ' + status['id_str'])
+      console.log(status)
+      // dupe status
+      return false;
+    }
+
+    var images = get_images()
+    if (_.contains(seen_images, images[0])) {
+      // dupe image
+      console.log('discarding status because we\'ve already seen ' + images[0])
+      console.log(status)
+      return false;
+    }
+
+    if (images[0]) {
+      seen_images.push(images[0])
+    }
+
+    return true;
   })
 
   console.log(new_statuses.length + ' were new')
