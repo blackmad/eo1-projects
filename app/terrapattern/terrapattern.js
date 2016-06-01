@@ -46,7 +46,7 @@ var params = parseQuery(window.location.search);
     return "<div class='tile_container'><div class='location_tile'><img alt='' src='"+url+"'/></div></div>";
   }
 
-  var image_size = 200;
+  var image_size = 300;
 
   function getTileFromFeature(feature) {
     return getTileImage(
@@ -66,7 +66,7 @@ function success(data) {
 
   var rows = Math.floor(window.innerHeight / real_image_size);
   var cols = Math.floor(window.innerWidth / real_image_size);
-  var ideal_num_tiles = (rows-1)*(cols-1);
+  var ideal_num_tiles = (rows)*(cols);
 
   var images = _.map(data['features'], getTileFromFeature)
   images = _.first(images, ideal_num_tiles);
@@ -93,6 +93,7 @@ function success(data) {
   // $('.location_tile').css('padding-left', (window.innerWidth - (real_image_size*cols)) / (cols + 1))
   // $('.location_tile').css('padding-top', (window.innerHeight - (real_image_size*rows)) / (rows + 1))
   console.log(images)
+  _.each($('.tile_container'), function(e) { if (!isScrolledIntoView(e)) { $(e).remove(); }})
 }
 
 function redraw() {
