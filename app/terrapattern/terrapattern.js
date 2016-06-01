@@ -79,8 +79,6 @@ function success(data) {
     $('#image_grid').append($(imageDiv));
   })
 
-  $('#image_grid').append($('  <div style="clear: both;"></div> '));
-
   $('.location_tile').css('width', real_image_size + 'px');
   $('.location_tile').css('height', real_image_size + 'px');
   $('.location_tile').css('clip', 'rect(' + border + 'px,' + border + 'px,' + extent + 'px, ' + extent + 'px)');
@@ -98,7 +96,7 @@ function success(data) {
 }
 
 function redraw() {
-  $('.location_tile').remove()
+  $('.tile_container').remove()
 
   var lat_range = BOUNDING_BOX['ne_lat'] - BOUNDING_BOX['sw_lat']
   var rnd_lat = BOUNDING_BOX['sw_lat'] + (Math.random() * lat_range)
