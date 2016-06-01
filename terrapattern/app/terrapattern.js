@@ -43,7 +43,7 @@ var params = parseQuery(window.location.search);
     url = url + "&center=" + lat + "," + lng;
     url = url + "&size=" + size + "x" + size;
     url = url + "&key=" + MAPS_API_KEY;
-    return "<div class='location_tile'><img alt='' src='"+url+"'/></div>";
+    return "<div class='tile_container'><div class='location_tile'><img alt='' src='"+url+"'/></div></div>";
   }
 
   var image_size = 200;
@@ -66,7 +66,7 @@ function success(data) {
 
   var rows = Math.floor(window.innerHeight / real_image_size);
   var cols = Math.floor(window.innerWidth / real_image_size);
-  var ideal_num_tiles = rows*cols;
+  var ideal_num_tiles = (rows-1)*(cols-1);
 
   var images = _.map(data['features'], getTileFromFeature)
   images = _.first(images, ideal_num_tiles);
@@ -79,6 +79,8 @@ function success(data) {
     $('#image_grid').append($(imageDiv));
   })
 
+  $('#image_grid').append($('  <div style="clear: both;"></div> '));
+
   $('.location_tile').css('width', real_image_size + 'px');
   $('.location_tile').css('height', real_image_size + 'px');
   $('.location_tile').css('clip', 'rect(' + border + 'px,' + border + 'px,' + extent + 'px, ' + extent + 'px)');
@@ -88,7 +90,7 @@ function success(data) {
     (window.innerHeight - (real_image_size*rows)) / (rows + 1)
   ])
 
-  $('.location_tile').css('padding', even_padding)
+  $('.tile_container').css('padding', '20px')
 
   // $('.location_tile').css('padding-left', (window.innerWidth - (real_image_size*cols)) / (cols + 1))
   // $('.location_tile').css('padding-top', (window.innerHeight - (real_image_size*rows)) / (rows + 1))

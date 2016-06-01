@@ -8,31 +8,34 @@
       <script async='async' defer='defer' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyB3tqnSc-hYUtoQ_n-V5ZPlnBq8evTwA_M&amp;callback=initialize&amp;libraries=places'></script>
 
     <style>
-    .location_tile {
-      float: left;
-      overflow: hidden;
-    }
-
     body {
       margin: 0;
       padding: 0;
       background-color: lightgray;
     }
 
-    #image_grid_holder {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+
     #image_grid {
-      display: inline;
+      display: flex;
+      flex-wrap: wrap;
       overflow: hidden;
+      width: 100%;
+      height: 100%;
     }
+
+    .location_tile {
+      overflow:hidden;
+    }
+
+    .tile_container {
+      overflow: hidden;
+      float: left;
+      flex-grow: 1;
+    }
+
     </style>
   </head>
   <body>
-    <div id="image_grid_holder">
       <div id="image_grid"></div>
-    </div>
   </body>
 </html>
