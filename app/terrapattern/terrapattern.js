@@ -96,7 +96,7 @@ function success(data) {
     (window.innerHeight - (real_image_size*rows)) / (rows + 1)
   ])
 
-  $('.tile_container').css('padding', '20px')
+  // $('.tile_container').css('padding', '20px')
 
   // $('.location_tile').css('padding-left', (window.innerWidth - (real_image_size*cols)) / (cols + 1))
   // $('.location_tile').css('padding-top', (window.innerHeight - (real_image_size*rows)) / (rows + 1))
