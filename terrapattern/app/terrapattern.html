@@ -1,0 +1,38 @@
+<html>
+  <head>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="geojson-utils.js"></script>
+    <script src="terrapattern.js"></script>
+    <script src="parseDuration.js"></script>
+      <script async='async' defer='defer' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyB3tqnSc-hYUtoQ_n-V5ZPlnBq8evTwA_M&amp;callback=initialize&amp;libraries=places'></script>
+
+    <style>
+    .location_tile {
+      float: left;
+      overflow: hidden;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: lightgray;
+    }
+
+    #image_grid_holder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #image_grid {
+      display: inline;
+      overflow: hidden;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="image_grid_holder">
+      <div id="image_grid"></div>
+    </div>
+  </body>
+</html>
