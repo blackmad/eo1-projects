@@ -46,16 +46,6 @@ var params = parseQuery(window.location.search);
     return "<div class='tile_container'><div class='location_tile'><img alt='' src='"+url+"'/></div></div>";
   }
 
-  var image_size = 300;
-
-  function getTileFromFeature(feature) {
-    return getTileImage(
-      feature['geometry']['coordinates'][1],
-      feature['geometry']['coordinates'][0],
-      feature['id'],
-      image_size
-    )
-  }
 
 function isScrolledIntoView(el) {
     var elemTop = el.getBoundingClientRect().top;
@@ -64,6 +54,8 @@ function isScrolledIntoView(el) {
     var isVisible = (elemTop >= 0) && (elemBottom <= window.innerHeight);
     return isVisible;
 }
+
+var image_size = 200;
 
 function success(data) {
   console.log(data);
@@ -76,7 +68,15 @@ function success(data) {
   var cols = Math.floor(window.innerWidth / real_image_size);
   var ideal_num_tiles = (rows)*(cols);
 
-  var images = _.map(data['features'], getTileFromFeature)
+  var images = _.map(data['features'], function (feature) {
+    return getTileImage(
+      feature['geometry']['coordinates'][1],
+      feature['geometry']['coordinates'][0],
+      feature['id'],
+      image_size
+    )
+  })
+
   images = _.first(images, ideal_num_tiles);
 
   if (images.length < ideal_num_tiles) {
@@ -127,6 +127,9 @@ function initialize() {
   var interval = 600000
   if (params['interval']) {
     interval = parseDuration(params['interval']);
+  }
+  if (params['image_size']) {
+    image_size = parseInt(params['image_size'])
   }
   setInterval(redraw, interval);
 }
