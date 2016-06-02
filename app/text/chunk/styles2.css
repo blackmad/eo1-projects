@@ -67,15 +67,25 @@ span {
     display: block;
 }
 
+.aligner {
+   display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vh;
+  height: 100vh;   
+}
+
 .fullBlock {
+
+
     font-size: 260px;
     height:100vh;
     overflow: hidden;
     display: block;
     width: 600px;
     overflow: hidden;
-    margin: 0 auto;
-    position: relative;
+    margin: auto;
+    /*position: relative;*/
     -webkit-transform: rotate(1deg);
     -moz-transform: rotate(1deg);
     -o-transform: rotate(1deg);
