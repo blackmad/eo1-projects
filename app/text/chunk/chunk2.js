@@ -17,37 +17,26 @@ function doesOverflow(el) {
       ($(el)[0].scrollWidth > $(el).innerWidth());
 }
 
-function forceRedraw(element){
-  var disp = element.style.display;
-  element.style.display = 'none';
-  var trick = element.offsetHeight;
-  element.style.display = disp;
-};
-
-jQuery.fn.redraw = function() {
-    return this.hide(0, function() {
-        $(this).show();
-    });
-};
 
 function adjustTextSize(selector) {
-  var $el = $(selector);
+  document.fonts.ready.then(function () {
+    var $el = $(selector);
 
-  while (doesOverflow($el)) {
-    $el.css('font-size',
-      parseInt($el.css('font-size')) - 5);
-    $(window).trigger('resize');
-    forceRedraw($el[0])
-    $el.redraw();
-    window.getComputedStyle($el[0])
-    console.log('adjusted down to ' + $el.css('font-size'));
-  }
-  console.log(doesOverflow($el))
-  $el.css('height', 'auto')
+    while (doesOverflow($el)) {
+      $el.css('font-size', parseInt($el.css('font-size')) - 5);
+      console.log('adjusted down to ' + $el.css('font-size'));
+    }
+    console.log(doesOverflow($el))
+    // $el.css('height', 'auto')
+
+    $('.bgText').css('font-size', parseInt($el.css('font-size'))*2);
+  })
 }
 
 $(document).ready(function() {
   var selector = '.fullBlock'
-  $(selector).html(params['text'] || 'lorem ipsum something');
+  var text = params['text'] || 'lorem ipsum something';
+  $('.text').html(text);
   adjustTextSize(selector)
+
 })

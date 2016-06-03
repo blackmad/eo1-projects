@@ -13,7 +13,8 @@ body {
     background: #c7d4cb url(bg.jpg) repeat;
     font: 14px/1 ChunkFiveRegular, "Helvetica Neue", Helvetica, Arial, Sans-Serif;
     color: #edf2ee;
-    padding-top: 40px;
+    margin: 0;
+    padding: 0;
 }
 a {
     display: block;
@@ -40,26 +41,17 @@ a:hover {
     -moz-box-shadow: 4px 6px #96a69a;
     box-shadow: 4px 6px #96a69a;
 }
-section {
 
-/*    opacity: .6;
-    -webkit-transition: opacity 0.4s linear;
-    -moz-transition: opacity 0.4s linear;
-    -o-transition: opacity 0.4s linear;*/
-}
-/*section:hover {
-    -webkit-transition: opacity 0.4s linear;
-    -moz-transition: opacity 0.4s linear;
-    -o-transition: opacity 0.4s linear;
-    opacity: 1;
-}*/
-section:after {
-    content: "all human are great and born and great";
+section {
     font-size: 100px;
-    opacity: 0.2;
+    opacity: 0.3;
     position: absolute;
-    left: -100px;
-    top: -25px;
+    right: 10px;
+    top: -10vh;
+    width: 600px;
+    height: 110vh;
+    text-align: right;
+    overflow: hidden;
 }
 section p {
 }
@@ -67,30 +59,24 @@ span {
     display: block;
 }
 
-.aligner {
-   display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100vh;
-  height: 100vh;   
-}
-
 .fullBlock {
-
-
     font-size: 260px;
     height:100vh;
     overflow: hidden;
     display: block;
     width: 600px;
     overflow: hidden;
-    margin: auto;
+    margin: auto auto;
     /*position: relative;*/
     -webkit-transform: rotate(1deg);
     -moz-transform: rotate(1deg);
     -o-transform: rotate(1deg);
     text-transform: uppercase;
     text-shadow: 2px 8px #b5c1b8, -1px -1px #fff;
+
+    align-content: center;
+    align-items: center;
+    display: flex;
 }
 
 .block1 {
