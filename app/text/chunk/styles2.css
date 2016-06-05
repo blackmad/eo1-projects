@@ -42,16 +42,26 @@ a:hover {
     box-shadow: 4px 6px #96a69a;
 }
 
-section {
+.bgText{
     font-size: 100px;
     opacity: 0.3;
     position: absolute;
-    right: 10px;
-    top: -10vh;
     width: 600px;
-    height: 110vh;
-    text-align: right;
     overflow: hidden;
+}
+
+.bgTextRight {
+  height: 110vh;
+  text-align: right;
+  right: 10px;
+  top: -10vh;
+}
+
+.bgTextLeft {
+  height: 110vh;
+  text-align: left;
+  left: 10px;
+  bottom: -10vh;
 }
 section p {
 }
