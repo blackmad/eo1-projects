@@ -12,7 +12,7 @@
 body {
     background: #c7d4cb url(bg.jpg) repeat;
     font: 14px/1 ChunkFiveRegular, "Helvetica Neue", Helvetica, Arial, Sans-Serif;
-    color: #edf2ee;
+    color: #444444;
     margin: 0;
     padding: 0;
 }
@@ -46,13 +46,15 @@ a:hover {
     font-size: 100px;
     opacity: 0.3;
     position: absolute;
-    width: 600px;
     overflow: hidden;
 }
 
 .bgTextRight {
   height: 110vh;
-  text-align: right;
+  width: 130vh;
+  text-justify: distribute;
+  text-align: justify;
+  /*text-align: center;*/
   right: 10px;
   top: -10vh;
 }
@@ -74,7 +76,7 @@ span {
     height:100vh;
     overflow: hidden;
     display: block;
-    width: 600px;
+    width: 80%;
     overflow: hidden;
     margin: auto auto;
     /*position: relative;*/

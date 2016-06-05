@@ -29,7 +29,7 @@ function adjustTextSize(selector) {
     console.log(doesOverflow($el))
     // $el.css('height', 'auto')
 
-    $('.bgText').css('font-size', parseInt($el.css('font-size'))*2);
+    $('.bgText').css('font-size', parseInt($el.css('font-size'))/2);
   })
 }
 
@@ -37,6 +37,7 @@ $(document).ready(function() {
   var selector = '.fullBlock'
   var text = params['text'] || 'lorem ipsum something';
   $('.text').html(text);
+  $('.textRepeat').html(_.times(30, function() { return text}).join(' '));
   adjustTextSize(selector)
 
 })
