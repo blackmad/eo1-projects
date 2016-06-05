@@ -39,4 +39,4 @@ def home(url):
   return Response(stream_with_context(req.iter_content()), content_type = req.headers['content-type'])
 
 if __name__ == '__main__':
-  app.run(port=5222, debug=True)
+  app.run(host='0.0.0.0', port=5222)
