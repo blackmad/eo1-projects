@@ -1,0 +1,95 @@
+* {
+    margin: 0; padding: 0;
+}
+@font-face {
+	font-family: 'ChunkFiveRegular';
+	src: url('Chunkfive.eot');
+	src: local('ChunkFive'),local('ChunkFive'),
+	    url('Chunkfive.woff') format('woff'),
+	    url('Chunkfive.ttf') format('truetype'),
+	    url('Chunkfive.svg#ChunkFive') format('svg');
+}
+body {
+    background: #c7d4cb url(bg.jpg) repeat;
+    font: 14px/1 ChunkFiveRegular, "Helvetica Neue", Helvetica, Arial, Sans-Serif;
+    color: #444444;
+    margin: 0;
+    padding: 0;
+}
+
+
+.bgText{
+    font-size: 100px;
+    opacity: 0.3;
+    position: absolute;
+    overflow: hidden;
+}
+
+.bgTextRight {
+  height: 110vh;
+  width: 130vh;
+  text-justify: distribute;
+  text-align: justify;
+  /*text-align: center;*/
+  right: 10px;
+  top: -10vh;
+}
+
+.bgTextLeft {
+  height: 110vh;
+  text-align: left;
+  left: 10px;
+  bottom: -10vh;
+}
+section p {
+}
+span {
+    display: inline-block;
+    /*white-space: nowrap;*/
+}
+
+.content {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  flex-wrap: wrap;
+  width: 80%;
+  margin: auto auto;
+}
+
+.fullBlock {
+    font-size: 260px;
+    overflow: hidden;
+    display: block;
+    width: 80%;
+    overflow: hidden;
+    margin: auto auto;
+    /*position: relative;*/
+    -webkit-transform: rotate(1deg);
+    -moz-transform: rotate(1deg);
+    -o-transform: rotate(1deg);
+    text-transform: uppercase;
+    text-shadow: 2px 8px #b5c1b8, -1px -1px #fff;
+
+    align-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.boxBlock {
+    -webkit-transform: rotate(-2deg);
+    -moz-transform: rotate(-2deg);
+    -o-transform: rotate(-2deg);
+    /*background: #edf2ee;*/
+    /*color: #c7d4cb;*/
+    background: #444444;
+    color: #c7d4cb;
+    padding: 7px 10px;
+    text-shadow: -1px -1px #b5c1b8;
+    -webkit-box-shadow: 4px 6px #b5c1b8;
+    -moz-box-shadow: 4px 6px #b5c1b8;
+    box-shadow: 4px 6px #b5c1b8;
+    font-weight: normal;
+    margin-bottom: 20px;
+}

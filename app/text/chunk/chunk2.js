@@ -27,7 +27,6 @@ function adjustTextSize(selector) {
       console.log('adjusted down to ' + $el.css('font-size'));
     }
     console.log(doesOverflow($el))
-    // $el.css('height', 'auto')
 
     $('.bgText').css('font-size', parseInt($el.css('font-size'))/2);
   })
