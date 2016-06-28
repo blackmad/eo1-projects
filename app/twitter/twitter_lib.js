@@ -56,13 +56,20 @@ function process_status(status) {
 
   if (images.length > 0) {
     console.log('have images')
-    new_url = _.sample(visualizations_addresses) + '?' + $.param({
+    new_params = {
       'text': text,
       'image': images[0],
       'author_name': status['user']['name'],
       'author_screenname': status['user']['screen_name'],
       'author_image': status['user']['profile_image_url']
-    })
+    }
+    if (params['hideText']) {
+      new_params['hideText'] = params['hideText']
+    }
+    if (params['text'] == 'no') {
+      new_params['hideText'] = 'yes'
+    }
+    new_url = _.sample(visualizations_addresses) + '?' + $.param(new_params)
 
     iframe_index = (iframe_index + 1) % 2
     var iframe_id = 'iframe' + iframe_index

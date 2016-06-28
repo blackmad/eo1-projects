@@ -21,7 +21,7 @@ def nocache(view):
         response.headers['Pragma'] = 'no-cache'
         response.headers['Expires'] = '-1'
         return response
-        
+
     return update_wrapper(no_cache, view)
 
 
@@ -57,4 +57,4 @@ def home(url):
   return Response(stream_with_context(req.iter_content()), content_type = req.headers['content-type'])
 
 if __name__ == '__main__':
-  app.run(host='0.0.0.0', port=5222)
+  app.run(host='0.0.0.0', port=5222, threaded=True)
