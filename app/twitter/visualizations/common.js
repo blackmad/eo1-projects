@@ -49,8 +49,7 @@ function make_make_page(image_onload_handler) {
     
     $('.image').css('background-image', "url('" + image + "')");
 
-    debugger;
-    if (params['hideText'] == 'yes' || params['text'] == 'no') {
+    if (params['hideText'] == 'yes') {
       hideTextDisplay();
     }
 
