@@ -4,6 +4,8 @@ from flask import Flask
 from flask import Response
 from flask import stream_with_context
 from flask import Flask, request, send_from_directory, render_template
+from flaskrun import flaskrun
+
 
 import logging
 logging.basicConfig()
@@ -57,4 +59,4 @@ def home(url):
   return Response(stream_with_context(req.iter_content()), content_type = req.headers['content-type'])
 
 if __name__ == '__main__':
-  app.run(debug=True, use_reloader=True)
+  flaskrun(app)
