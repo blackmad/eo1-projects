@@ -6,7 +6,10 @@ from flask import Response
 from flask import stream_with_context
 from flask import Flask, request, send_from_directory, render_template
 from flaskrun import flaskrun
+from flask import jsonify
 
+import pytumblr
+from tumblrClient import tumblrClient
 
 import logging
 logging.basicConfig()
@@ -38,6 +41,35 @@ credentials = get_credentials()
 print credentials
 eo = ElectricObject(username=credentials["username"], password=credentials["password"])
 
+def getWithOffset(name, offset):
+  resp = tumblrClient.posts(name, offset=offset)
+  print resp
+  photos = []
+  if 'posts' in resp:
+    for post in resp['posts']:
+      if 'photos' in post:
+        for photo in post['photos']:
+          photos.append({'url': photo['original_size']['url']})
+  return {
+  'photos': photos,
+  'resp': resp,
+  'total_posts': resp['blog']['total_posts'],
+  'start': offset,
+  'end': offset + len(resp['posts'])
+  }
+
+@app.route('/tumblr/posts', methods=['GET'])
+def tumblr_posts():
+  name = request.args.get('name')
+  print "name: %s" % (name)
+
+  offset = request.args.get('offset') or 0
+  print "offset: %s" % (offset)
+
+  photos = getWithOffset(name, int(offset))
+
+  return jsonify(photos)
+
 @app.route('/eo1/set_text', methods=['GET'])
 def set_text_form():
   return render_template('set_text.html')
@@ -56,6 +88,8 @@ def send_app(path):
 
 @app.route('/proxy/<path:url>')
 def home(url):
+  if 'gif' in url:
+    return None
   req = requests.get(url, stream = True)
   return Response(stream_with_context(req.iter_content()), content_type = req.headers['content-type'])
 

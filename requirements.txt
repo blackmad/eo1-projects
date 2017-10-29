@@ -3,3 +3,4 @@ lxml
 html2text
 Flask
 gunicorn
+pytumblr

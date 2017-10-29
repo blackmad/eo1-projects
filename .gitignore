@@ -41,3 +41,5 @@ auth.js
 images/
 
 *pyc
+
+tumblrClient.py

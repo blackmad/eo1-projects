@@ -1,0 +1,45 @@
+<script src="third_party/underscore.js"></script>
+<script src='third_party/jquery.min.js'></script>
+
+<script type="text/javascript" src="parseDuration.js"></script>
+<script type="text/javascript" src="dummy_data.js"></script>
+<script type="text/javascript" src="twitter_lib.js"></script>
+
+<script type="text/javascript">
+$(document).ready(make_page)
+</script>
+
+<style>
+body {
+    margin: 0;
+}
+.iframe {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: #000;
+    border: none;         /* Reset default border */
+    height: 100vh;        /* Viewport-relative units */
+    width: 100vw;
+}
+/*
+.state1 #iframe0 {display: block;}
+.state1 #iframe1 {display: none;}
+
+.state2 #iframe0 {display: none;}
+.state2 #iframe1 {display: block;}*/
+
+
+.state1 #iframe0 {visibility: visible;}
+.state1 #iframe1 {visibility: hidden;}
+
+.state2 #iframe0 {visibility: hidden;}
+.state2 #iframe1 {visibility: visible;}
+
+</style>
+
+<body class="state1" id="body">
+  <iframe id="iframe0" class="iframe"></iframe>
+  <iframe id="iframe1" class="iframe"></iframe>
+</body>
