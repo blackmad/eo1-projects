@@ -38,7 +38,7 @@ function adjust_image_bg_for_text(img) {
 }
 
 function hideTextDisplay() {
-  $('body').addClass('notext')  
+  $('body').addClass('notext')
   $('.textDisplay').hide()
 }
 
@@ -46,8 +46,18 @@ function make_make_page(image_onload_handler) {
   return function() {
     var image = params['image'];
     var text = params['text'];
-    
-    $('.image').css('background-image', "url('" + image + "')");
+    console.log(image)
+
+    var video = params['video'];
+
+    if (video) {
+      var videocontainer = document.getElementById('videoclip');
+      var videosource = document.getElementById('mp4video');
+      videosource.setAttribute('src', video);
+      videocontainer.load();
+      videocontainer.play();
+      $('.image').hide();
+    }
 
     if (params['hideText'] == 'yes') {
       hideTextDisplay();
@@ -57,7 +67,7 @@ function make_make_page(image_onload_handler) {
       text = text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
       text = text.replace(/: *$/, '');
       text = text.trim()
-      if (text.length > 0) { 
+      if (text.length > 0) {
         $('#text').html(text);
       } else {
         hideTextDisplay();
@@ -69,10 +79,13 @@ function make_make_page(image_onload_handler) {
       hideTextDisplay()
     }
 
-    if (image_onload_handler) {
-      var img = new Image()
-      img.onload = image_onload_handler;
-      img.src = proxyImage(image)
+    if (image) {
+      $('.image').css('background-image', "url('" + image + "')");
+      if (image_onload_handler) {
+        var img = new Image()
+        img.onload = image_onload_handler;
+        img.src = proxyImage(image)
+      }
     }
   }
 }

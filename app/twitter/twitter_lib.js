@@ -19,6 +19,18 @@ function parseQuery(qstr) {
     return query;
 }
 
+function get_videos(status) {
+  if (status
+    && status['extended_entities']
+    && status['extended_entities']['media']
+    && status['extended_entities']['media'][0]
+    && status['extended_entities']['media'][0]['video_info']
+  ) {
+    return _.map(status['extended_entities']['media'], function(m) { return m["video_info"]['variants'][0]['url'] })
+  }
+  return []
+}
+
 function get_images(status) {
   if (status && status['entities']
     && status['entities']['media']) {
@@ -30,6 +42,7 @@ function get_images(status) {
 function process_status(status) {
   var text = status['text']
   var images = get_images(status)
+  var videos = get_videos(status)
 
   console.log('trying to process')
   console.log(status)
@@ -59,6 +72,7 @@ function process_status(status) {
     new_params = {
       'text': text,
       'image': images[0],
+      'video': videos[0] || '',
       'author_name': status['user']['name'],
       'author_screenname': status['user']['screen_name'],
       'author_image': status['user']['profile_image_url']
@@ -70,6 +84,8 @@ function process_status(status) {
       new_params['hideText'] = 'yes'
     }
     new_url = _.sample(visualizations_addresses) + '?' + $.param(new_params)
+
+    console.log(new_url)
 
     iframe_index = (iframe_index + 1) % 2
     var iframe_id = 'iframe' + iframe_index
@@ -95,10 +111,15 @@ function flipIframes() {
 
 function process_search_response(data) {
   searchInProgress = false;
+  console.log(data)
 
-  console.log('got ' + data['statuses'].length + ' statuses')
+  var statusData = data;
+  if (data.hasOwnProperty('statuses')) {
+    console.log('got ' + data['statuses'].length + ' statuses')
+    statusData = data['statuses']
+  }
 
-  new_statuses = _.filter(data['statuses'], function(status) {
+  new_statuses = _.filter(statusData, function(status) {
     if (_.contains(seen_ids, status['id_str'])) {
       console.log('discarding status because we\'ve already seen ' + status['id_str'])
       console.log(status)
@@ -181,15 +202,25 @@ function updateSearch(options) {
 
   var params = parseQuery(window.location.search);
   var query = params['q'] || "NYC OR new york"
-  query += " filter:twimg";
+  var list_id = params['list_id']
+
+  // query += " filter:twimg";
   var my_params = {
     q: query,
-    count: 100
+    count: 100,
+    list_id: list_id
   };
+
+  var endpoint = 'search_tweets'
+  if (list_id) {
+    endpoint = 'lists_statuses'
+  }
 
   if (params['result_type']) {
     my_params['result_type'] = params['result_type'];
   }
+
+  console.log(my_params)
 
   if (searchOlder) {
     var max_id = _.min(seen_ids)
@@ -202,7 +233,7 @@ function updateSearch(options) {
   }
 
   cb.__call(
-      "search_tweets",
+      endpoint,
       my_params,
       process_search_response,
       true
@@ -225,3 +256,31 @@ function make_page() {
     updateSearch();
   }
 }
+
+
+$("body").keydown(function(e) {
+  if(e.keyCode == 37) { // left
+    console.log('left');
+  }
+  else if(e.keyCode == 39) { // right
+    console.log('right');
+  }
+});
+
+$("iframe0").keydown(function(e) {
+  if(e.keyCode == 37) { // left
+    console.log('left');
+  }
+  else if(e.keyCode == 39) { // right
+    console.log('right');
+  }
+});
+
+$("iframe1").keydown(function(e) {
+  if(e.keyCode == 37) { // left
+    console.log('left');
+  }
+  else if(e.keyCode == 39) { // right
+    console.log('right');
+  }
+});
