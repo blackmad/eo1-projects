@@ -8,9 +8,6 @@ from flask import Flask, request, send_from_directory, render_template
 from flaskrun import flaskrun
 from flask import jsonify
 
-import pytumblr
-from tumblrClient import tumblrClient
-
 import logging
 logging.basicConfig()
 
@@ -41,34 +38,41 @@ credentials = get_credentials()
 print credentials
 eo = ElectricObject(username=credentials["username"], password=credentials["password"])
 
-def getWithOffset(name, offset):
-  resp = tumblrClient.posts(name, offset=offset)
-  print resp
-  photos = []
-  if 'posts' in resp:
-    for post in resp['posts']:
-      if 'photos' in post:
-        for photo in post['photos']:
-          photos.append({'url': photo['original_size']['url']})
-  return {
-  'photos': photos,
-  'resp': resp,
-  'total_posts': resp['blog']['total_posts'],
-  'start': offset,
-  'end': offset + len(resp['posts'])
-  }
+try:
+  import pytumblr
+  from tumblrClient import tumblrClient
 
-@app.route('/tumblr/posts', methods=['GET'])
-def tumblr_posts():
-  name = request.args.get('name')
-  print "name: %s" % (name)
+  def getWithOffset(name, offset):
+    resp = tumblrClient.posts(name, offset=offset)
+    print resp
+    photos = []
+    if 'posts' in resp:
+      for post in resp['posts']:
+        if 'photos' in post:
+          for photo in post['photos']:
+            photos.append({'url': photo['original_size']['url']})
+    return {
+    'photos': photos,
+    'resp': resp,
+    'total_posts': resp['blog']['total_posts'],
+    'start': offset,
+    'end': offset + len(resp['posts'])
+    }
 
-  offset = request.args.get('offset') or 0
-  print "offset: %s" % (offset)
+  @app.route('/tumblr/posts', methods=['GET'])
+  def tumblr_posts():
+    name = request.args.get('name')
+    print "name: %s" % (name)
 
-  photos = getWithOffset(name, int(offset))
+    offset = request.args.get('offset') or 0
+    print "offset: %s" % (offset)
 
-  return jsonify(photos)
+    photos = getWithOffset(name, int(offset))
+
+    return jsonify(photos)
+except:
+  print 'COULD NOT IMPORT PYTUMBLR'
+  print 'NO TUMBLR SUPPORT'
 
 @app.route('/eo1/set_text', methods=['GET'])
 def set_text_form():
@@ -83,7 +87,6 @@ def set_text():
 @nocache
 @app.route('/app/<path:path>')
 def send_app(path):
- print 'trying to send ' + path
  return send_from_directory('app', path)
 
 @app.route('/proxy/<path:url>')
