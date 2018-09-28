@@ -8,3 +8,6 @@ TODO
 
 other ideas
 - do some color shift effect like matt's phish/video aesthetic
+
+useful links
+http://localhost:5000/app/twitter/index.html?viz=embed&q=pantone%20colors&interval=10s

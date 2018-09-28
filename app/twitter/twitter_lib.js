@@ -70,6 +70,7 @@ function process_status(status) {
   if (images.length > 0) {
     console.log('have images')
     new_params = {
+      'id': status['id_str'],
       'text': text,
       'image': images[0],
       'video': videos[0] || '',

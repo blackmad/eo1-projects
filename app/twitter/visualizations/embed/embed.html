@@ -1,0 +1,69 @@
+<script src="../third_party/underscore.js"></script>
+<script src='../third_party/jquery.min.js'></script>
+
+<script>
+  function parseQuery(qstr) {
+    var query = {};
+    var a = qstr.substr(1).replace(/\+/g, ' ').split('&');
+    for (var i = 0; i < a.length; i++) {
+        var b = a[i].split('=');
+        query[decodeURIComponent(b[0])] = decodeURIComponent(b[1] || '')
+    }
+    return query;
+  }
+
+  var params = parseQuery(window.location.search);
+</script>
+
+<style>
+
+  #tweet {
+    width:  !important;
+  }
+
+  #tweet iframe {
+    border: none !important;
+    box-shadow: none !important;
+
+
+
+  }
+
+  .content {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+
+</style>
+
+
+<div class="tw-align-center content " id="tweet"></div>
+
+<script sync src="https://platform.twitter.com/widgets.js"></script>
+
+<script>
+
+  window.onload = (function(){
+
+    var tweet = document.getElementById("tweet");
+    var id = params['id']
+
+    twttr.widgets.createTweet(
+      id, tweet, 
+      {
+        conversation : 'all',    // or all
+        cards        : 'visible',  // or visible 
+        linkColor    : '#cc0000', // default is blue
+        theme        : 'light'    // or dark
+      })
+    .then (function (el) {
+      el.contentDocument.querySelector(".footer").style.display = "none";
+    });
+
+  });
+
+</script>
