@@ -38,12 +38,12 @@ import requests
 app = Flask(__name__)
 
 credentials = get_credentials()
-print credentials
+print(credentials)
 eo = ElectricObject(username=credentials["username"], password=credentials["password"])
 
 def getWithOffset(name, offset):
   resp = tumblrClient.posts(name, offset=offset)
-  print resp
+  print(resp)
   photos = []
   if 'posts' in resp:
     for post in resp['posts']:
@@ -61,10 +61,10 @@ def getWithOffset(name, offset):
 @app.route('/tumblr/posts', methods=['GET'])
 def tumblr_posts():
   name = request.args.get('name')
-  print "name: %s" % (name)
+  print("name: %s" % (name))
 
   offset = request.args.get('offset') or 0
-  print "offset: %s" % (offset)
+  print("offset: %s" % (offset))
 
   photos = getWithOffset(name, int(offset))
 
@@ -83,7 +83,7 @@ def set_text():
 @nocache
 @app.route('/app/<path:path>')
 def send_app(path):
- print 'trying to send ' + path
+ print('trying to send ' + path)
  return send_from_directory('app', path)
 
 @app.route('/proxy/<path:url>')

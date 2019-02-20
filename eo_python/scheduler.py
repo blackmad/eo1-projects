@@ -45,7 +45,7 @@ class Scheduler(object):
         self.schedule = []
         for t in schedule:
             try:
-                (h, m) = map(int, t.split(":"))
+                (h, m) = list(map(int, t.split(":")))
                 if h < 0 or h > 23 or m < 0 or m > 59:
                     raise ValueError('invalid time in schedule: {0}. Skipping.'.format(t))
                 self.schedule.append(datetime.time(h, m))

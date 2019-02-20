@@ -1,4 +1,4 @@
-import eo_net
+from . import eo_net
 import logging
 import requests
 import time
@@ -95,7 +95,7 @@ class EO_API(object):
         if not signin_ok:
             return None
 
-        if endpoint not in self.endpoints.keys():
+        if endpoint not in list(self.endpoints.keys()):
             self.logger.error("unknown endpoint requested: " + endpoint)
             return None
 

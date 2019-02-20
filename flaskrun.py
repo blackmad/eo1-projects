@@ -39,7 +39,7 @@ def flaskrun(app, default_host="0.0.0.0",
                        restrictions=[30])
         options.debug = True
 
-    print "running on port " + options.port
+    print("running on port " + options.port)
     app.run(
         debug=options.debug,
         host=options.host,
