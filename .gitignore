@@ -43,3 +43,4 @@ images/
 *pyc
 
 tumblrClient.py
+node_modules
