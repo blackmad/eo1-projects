@@ -4,3 +4,4 @@ html2text
 Flask
 gunicorn
 pytumblr
+python-twitter

@@ -1,6 +1,4 @@
-
-alert('edit auth.js to put in twitter secrets')
-var YOURKEY = ""
-var YOURSECRET = ""
-var YOURTOKEN = ""
-var YOURTOKENSECRET = ""
+YOURKEY="UenPdvtonHRI6lqCYPWqGZBiH"
+YOURSECRET="IkUD21ypiTudKdaGQ6IEnmyN5g0albFIJfWY9ap2HqqjFyGuIv"
+YOURTOKEN="8253682-elV6a40BrpzyepLf56O5gsvzju8kzPmg3REchOyT7f"
+YOURTOKENSECRET="OB4uIYzSYgQzrnAAjzGuI2zg4oaRHYeyKwhOkhdLVCG7E"
