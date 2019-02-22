@@ -123,7 +123,6 @@ function maybeDoUpdate() {
     needsUpdating = false;
     process_status(status)
     if (!intervalId) {
-      var params = parseQuery(window.location.search);
       var interval = 200000
       if (params['interval']) {
         interval = parseDuration(params['interval'])
