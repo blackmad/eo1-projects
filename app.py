@@ -8,6 +8,9 @@ from flask import Flask, request, send_from_directory, render_template
 from flaskrun import flaskrun
 from flask import jsonify
 
+import pytumblr
+from tumblrClient import tumblrClient
+
 import logging
 logging.basicConfig()
 
@@ -28,43 +31,100 @@ def nocache(view):
     return update_wrapper(no_cache, view)
 
 
-from eo_python.eo import ElectricObject, get_credentials
+# from eo_python.eo import ElectricObject, get_credentials
 
 import requests
 
 app = Flask(__name__)
 
-credentials = get_credentials()
-print(credentials)
-eo = ElectricObject(username=credentials["username"], password=credentials["password"])
+# credentials = get_credentials()
+# print(credentials)
+# eo = ElectricObject(username=credentials["username"], password=credentials["password"])
 
-try:
-  import tumblr
+def getWithOffset(name, offset):
+  resp = tumblrClient.posts(name, offset=offset)
+  print(resp)
+  photos = []
+  if 'posts' in resp:
+    for post in resp['posts']:
+      if 'photos' in post:
+        for photo in post['photos']:
+          photos.append({'url': photo['original_size']['url']})
+  return {
+  'photos': photos,
+  'resp': resp,
+  'total_posts': resp['blog']['total_posts'],
+  'start': offset,
+  'end': offset + len(resp['posts'])
+  }
 
-  @app.route('/tumblr/posts', methods=['GET'])
-  def tumblr_posts():
-    name = request.args.get('name')
-    print "name: %s" % (name)
+@app.route('/tumblr/posts', methods=['GET'])
+def tumblr_posts():
+  name = request.args.get('name')
+  print("name: %s" % (name))
 
-    offset = request.args.get('offset') or 0
-    print "offset: %s" % (offset)
+  offset = request.args.get('offset') or 0
+  print("offset: %s" % (offset))
 
-    photos = tumblr.getWithOffset(name, int(offset))
+  photos = getWithOffset(name, int(offset))
 
-    return jsonify(photos)
-except:
-  print 'COULD NOT IMPORT PYTUMBLR'
-  print 'NO TUMBLR SUPPORT'
+  return jsonify(photos)
 
-@app.route('/eo1/set_text', methods=['GET'])
-def set_text_form():
-  return render_template('set_text.html')
 
-@app.route('/eo1/set_text', methods=['POST'])
-def set_text():
-  # eo.set_url('http://eo1.blackmad.com:5222/app/text/chunk/chunk2.html?text=' + request.form['text'])
-  eo.set_url('http://eo1.blackmad.com/app/text/chunk/chunk2.html?text=you%20should%20test%20this!')
-  return 'okay, cool, hope that worked'
+import hashlib
+import string
+import random
+
+from instagram_web_api import Client
+
+class MyClient(Client):
+    @staticmethod
+    def _extract_rhx_gis(html):
+        options = string.ascii_lowercase + string.digits
+        text = ''.join([random.choice(options) for _ in range(8)])
+        return hashlib.md5(text.encode()).hexdigest()
+
+from instagram_web_api import Client, ClientCompatPatch, ClientError, ClientLoginError
+
+@app.route('/instagram/posts', methods=['GET'])
+def instagram_posts():
+  name = request.args.get('name')
+  print("name: %s" % (name))
+
+  offset = request.args.get('offset') or None
+  print("offset: %s" % (offset))
+
+  # Without any authentication
+  web_api = MyClient(auto_patch=True, drop_incompat_keys=False)
+  id = web_api.user_info2(name)['id']
+  user_feed_info = web_api.user_feed(id, count=50, max_id=offset)
+ 
+  photos = []
+  end_cursor = None
+
+  for post in user_feed_info:
+    photos.append({'url': post['node']['display_url']})
+    end_cursor = post.get('node', {}).get('edge_media_to_comment', {}).get('page_info', {}).get('end_cursor')
+
+  resp = {
+    'photos': photos,
+    # 'resp': resp,
+    # 'total_posts': resp['blog']['total_posts'],
+    'start': 0,
+    'end': end_cursor
+  }
+    
+  return jsonify(resp)
+
+# @app.route('/eo1/set_text', methods=['GET'])
+# def set_text_form():
+#   return render_template('set_text.html')
+
+# @app.route('/eo1/set_text', methods=['POST'])
+# def set_text():
+#   # eo.set_url('http://eo1.blackmad.com:5222/app/text/chunk/chunk2.html?text=' + request.form['text'])
+#   eo.set_url('http://eo1.blackmad.com/app/text/chunk/chunk2.html?text=you%20should%20test%20this!')
+#   return 'okay, cool, hope that worked'
 
 @nocache
 @app.route('/app/<path:path>')

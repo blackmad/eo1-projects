@@ -142,7 +142,11 @@ function updateSearch(options) {
   searchInProgress = true;
 
   console.log(options)
-  jQuery.get('/tumblr/posts', options, process_search_response)
+  if (params['instagram']) {
+    jQuery.get('/instagram/posts', options, process_search_response)
+  } else {
+    jQuery.get('/tumblr/posts', options, process_search_response)
+  }
 }
 
 function forceUpdate() {
