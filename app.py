@@ -147,10 +147,11 @@ def get_tweets(api=None, screen_name=None):
         new_earliest = min(tweets, key=lambda x: x.id).id
         latest_tweet = max(tweets, key=lambda x: x.id).id
         for tweet in tweets:
-          if tweet['media']:
-            for media in tweet['media']:
+          if tweet.media:
+            for media in tweet.media:
+              # print(media.media_url)
               photos.append({
-                url: media['media_url']
+                'url': media.media_url
               })
 
         if not tweets or new_earliest == earliest_tweet:
