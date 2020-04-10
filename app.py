@@ -1,6 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from flask import Flask
 from flask import Response
 from flask import stream_with_context
@@ -9,7 +12,6 @@ from flaskrun import flaskrun
 from flask import jsonify
 
 import pytumblr
-# from tumblrClient import tumblrClient
 
 import os
 import twitter
@@ -45,34 +47,40 @@ credentials = get_credentials()
 print(credentials)
 eo = ElectricObject(username=credentials["username"], password=credentials["password"])
 
-# def getWithOffset(name, offset):
-#   resp = tumblrClient.posts(name, offset=offset)
-#   print(resp)
-#   photos = []
-#   if 'posts' in resp:
-#     for post in resp['posts']:
-#       if 'photos' in post:
-#         for photo in post['photos']:
-#           photos.append({'url': photo['original_size']['url']})
-#   return {
-#   'photos': photos,
-#   'resp': resp,
-#   'total_posts': resp['blog']['total_posts'],
-#   'start': offset,
-#   'end': offset + len(resp['posts'])
-#   }
+import pytumblr
+tumblrClient = pytumblr.TumblrRestClient(
+  os.getenv('TUMBLR_CONSUMER_KEY'),  os.getenv('TUMBLR_CONSUMER_SECRET'),  os.getenv('TUMBLR_ACCESS_TOKEN_KEY'),  os.getenv('TUMBLR_ACCESS_TOKEN_SECRET')
+)
 
-# @app.route('/tumblr/posts', methods=['GET'])
-# def tumblr_posts():
-#   name = request.args.get('name')
-#   print("name: %s" % (name))
 
-#   offset = request.args.get('offset') or 0
-#   print("offset: %s" % (offset))
+def getWithOffset(name, offset):
+  resp = tumblrClient.posts(name, offset=offset)
+  print(resp)
+  photos = []
+  if 'posts' in resp:
+    for post in resp['posts']:
+      if 'photos' in post:
+        for photo in post['photos']:
+          photos.append({'url': photo['original_size']['url']})
+  return {
+  'photos': photos,
+  'resp': resp,
+  'total_posts': resp['blog']['total_posts'],
+  'start': offset,
+  'end': offset + len(resp['posts'])
+  }
 
-#   photos = getWithOffset(name, int(offset))
+@app.route('/tumblr/posts', methods=['GET'])
+def tumblr_posts():
+  name = request.args.get('name')
+  print("name: %s" % (name))
 
-#   return jsonify(photos)
+  offset = request.args.get('offset') or 0
+  print("offset: %s" % (offset))
+
+  photos = getWithOffset(name, int(offset))
+
+  return jsonify(photos)
 
 
 import hashlib
@@ -127,9 +135,6 @@ def instagram_posts():
   }
     
   return jsonify(resp)
-
-from dotenv import load_dotenv
-load_dotenv()
 
 def get_tweets(api=None, screen_name=None):
     photos = []
