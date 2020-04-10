@@ -1,60 +1,82 @@
 <style>
-* {
-  font-size: 120%;
-} 
-input {
-  width: 100%;
-}
+  * {
+    font-size: 120%;
+  }
+  input {
+    width: 100%;
+  }
 </style>
 
 <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
-<input type="text" name="name" placeholder="instagram handle" id="name"/>
-<input type="button" id="submit" name="submit" value="submit">
+  crossorigin="anonymous"
+></script>
+<input type="text" name="name" placeholder="instagram handle" id="name" />
+<input type="button" id="submit" name="submit" value="submit" />
 
 <script>
-  $('#submit').click(() => {
-    let value = $('#name').val();
-    value = value.split('?')[0]
-    value = value.replace('https://www.instagram.com/', '');
-    value = value.replace('/', '');
-    value = value.replace('/', '');
-    window.location = '/instagram/set_url?name=' + value;
-  })
+  $("#name").keypress(function (e) {
+    if (e.which == 13) {
+      $("#submit").click();
+      return false;
+    }
+  });
+
+  $("#submit").click(() => {
+    let value = $("#name").val();
+    value = value.split("?")[0];
+    value = value.replace("https://www.instagram.com/", "");
+    value = value.replace("/", "");
+    value = value.replace("/", "");
+    window.location = "/instagram/set_url?name=" + value;
+  });
 </script>
 
-<hr/>
+<hr />
 
-<input type="text" name="name" placeholder="twitter handle" id="twitterName"/>
-<input type="button" id="submitTwitter" name="submit" value="submit">
+<input type="text" name="name" placeholder="twitter handle" id="twitterName" />
+<input type="button" id="submitTwitter" name="submit" value="submit" />
 
 <script>
-  $('#submitTwitter').click(() => {
-    let value = $('#twitterName').val();
-    value = value.split('?')[0]
-    value = value.replace('https://twitter.com/', '');
-    value = value.replace('https://www.twitter.com/', '');
-    value = value.replace('/', '');
-    value = value.replace('/', '');
-    window.location = '/twitter/set_url?name=' + value;
-  })
+  $("#twitterName").keypress(function (e) {
+    if (e.which == 13) {
+      $("#submitTwitter").click();
+      return false;
+    }
+  });
+
+  $("#submitTwitter").click(() => {
+    let value = $("#twitterName").val();
+    value = value.split("?")[0];
+    value = value.replace("https://twitter.com/", "");
+    value = value.replace("https://www.twitter.com/", "");
+    value = value.replace("/", "");
+    value = value.replace("/", "");
+    window.location = "/twitter/set_url?name=" + value;
+  });
 </script>
 
-<hr/>
+<hr />
 
-<input type="text" name="name" placeholder="tumblr handle" id="tumblrName"/>
-<input type="button" id="submitTumblr" name="submit" value="submit">
+<input type="text" name="name" placeholder="tumblr handle" id="tumblrName" />
+<input type="button" id="submitTumblr" name="submit" value="submit" />
 
 <script>
-  $('#submitTumblr').click(() => {
-    let value = $('#tumblrName').val();
-    value = value.split('?')[0]
-    value = value.replace('https://tumblr.com/', '');
-    value = value.replace('https://www.tumblr.com/', '');
-    value = value.replace('/', '');
-    value = value.replace('/', '');
-    window.location = '/tumblr/set_url?name=' + value;
-  })
+  $("#tumblrName").keypress(function (e) {
+    if (e.which == 13) {
+      $("#submitTumblr").click();
+      return false;
+    }
+  });
+
+  $("#submitTumblr").click(() => {
+    let value = $("#tumblrName").val();
+    value = value.split("?")[0];
+    value = value.replace("https://tumblr.com/", "");
+    value = value.replace("https://www.tumblr.com/", "");
+    value = value.replace("/", "");
+    value = value.replace("/", "");
+    window.location = "/tumblr/set_url?name=" + value;
+  });
 </script>

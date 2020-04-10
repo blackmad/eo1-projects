@@ -144,7 +144,7 @@ function updateSearch(options) {
   console.log(options)
   if (params['instagram']) {
     jQuery.get('/instagram/posts', options, process_search_response)
-  } if (params['twitter']) {
+  } else if (params['twitter']) {
     jQuery.get('/twitter/posts', options, process_search_response)
   } else {
     jQuery.get('/tumblr/posts', options, process_search_response)
