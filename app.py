@@ -11,6 +11,10 @@ from flask import jsonify
 import pytumblr
 # from tumblrClient import tumblrClient
 
+import os
+import twitter
+
+
 import logging
 logging.basicConfig()
 
@@ -123,6 +127,62 @@ def instagram_posts():
   }
     
   return jsonify(resp)
+
+from dotenv import load_dotenv
+load_dotenv()
+
+def get_tweets(api=None, screen_name=None):
+    photos = []
+    timeline = api.GetUserTimeline(screen_name=screen_name, count=200)
+    very_earliest_tweet = min(timeline, key=lambda x: x.id).id
+    earliest_tweet = very_earliest_tweet
+    latest_tweet = very_earliest_tweet
+    print("getting tweets before:", earliest_tweet)
+    
+
+    while True:
+        tweets = api.GetUserTimeline(
+            screen_name=screen_name, max_id=earliest_tweet, count=200
+        )
+        new_earliest = min(tweets, key=lambda x: x.id).id
+        latest_tweet = max(tweets, key=lambda x: x.id).id
+        for tweet in tweets:
+          if tweet['media']:
+            for media in tweet['media']:
+              photos.append({
+                url: media['media_url']
+              })
+
+        if not tweets or new_earliest == earliest_tweet:
+            break
+        else:
+            earliest_tweet = new_earliest
+            print("getting tweets before:", earliest_tweet)
+            timeline += tweets
+
+    return {
+      'photos': photos,
+      'start': very_earliest_tweet,
+      'end': latest_tweet
+    }
+
+@app.route('/twitter/posts', methods=['GET'])
+def twitter_posts():
+  name = request.args.get('name')
+  print(os.environ)
+  print(os.getenv('TWITTER_CONSUMER_KEY'))
+  api = twitter.Api(
+     os.getenv('TWITTER_CONSUMER_KEY'),  os.getenv('TWITTER_CONSUMER_SECRET'),  os.getenv('TWITTER_ACCESS_TOKEN_KEY'),  os.getenv('TWITTER_ACCESS_TOKEN_SECRET')
+  )
+  return jsonify(get_tweets(api, 'archillect'))
+
+
+@app.route('/twitter/set_url', methods=['GET'])
+def twitter_set_url():
+  name = request.args.get('name')
+  url = 'http://eo1.blackmad.com/app/tumblr/index.html?twitter=true&viz=clean&hideText=no&interval=15m&name=' + name
+  eo.set_url(url);
+  return 'okay, cool, hope that worked, set to ' + url
 
 # @app.route('/eo1/set_text', methods=['GET'])
 # def set_text_form():
