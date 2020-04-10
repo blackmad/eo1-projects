@@ -188,7 +188,7 @@ def twitter_posts():
   api = twitter.Api(
      os.getenv('TWITTER_CONSUMER_KEY'),  os.getenv('TWITTER_CONSUMER_SECRET'),  os.getenv('TWITTER_ACCESS_TOKEN_KEY'),  os.getenv('TWITTER_ACCESS_TOKEN_SECRET')
   )
-  return jsonify(get_tweets(api, 'archillect'))
+  return jsonify(get_tweets(api, name))
 
 
 @app.route('/twitter/set_url', methods=['GET'])
