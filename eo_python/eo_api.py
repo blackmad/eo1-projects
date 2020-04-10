@@ -1,4 +1,4 @@
-import eo_net
+from eo_python import eo_net
 import logging
 import requests
 import time

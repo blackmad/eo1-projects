@@ -25,13 +25,13 @@
     Written for Python 2.7.x.
 """
 
-import eo_api
+from eo_python import eo_api
 import logging
 import logging.handlers
 import os
 import random
 import requests
-from scheduler import Scheduler
+from eo_python.scheduler import Scheduler
 import sys
 
 CREDENTIALS_FILE = ".credentials"

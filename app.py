@@ -9,7 +9,7 @@ from flaskrun import flaskrun
 from flask import jsonify
 
 import pytumblr
-from tumblrClient import tumblrClient
+# from tumblrClient import tumblrClient
 
 import logging
 logging.basicConfig()
@@ -31,44 +31,44 @@ def nocache(view):
     return update_wrapper(no_cache, view)
 
 
-# from eo_python.eo import ElectricObject, get_credentials
+from eo_python.eo import ElectricObject, get_credentials
 
 import requests
 
 app = Flask(__name__)
 
-# credentials = get_credentials()
-# print(credentials)
-# eo = ElectricObject(username=credentials["username"], password=credentials["password"])
+credentials = get_credentials()
+print(credentials)
+eo = ElectricObject(username=credentials["username"], password=credentials["password"])
 
-def getWithOffset(name, offset):
-  resp = tumblrClient.posts(name, offset=offset)
-  print(resp)
-  photos = []
-  if 'posts' in resp:
-    for post in resp['posts']:
-      if 'photos' in post:
-        for photo in post['photos']:
-          photos.append({'url': photo['original_size']['url']})
-  return {
-  'photos': photos,
-  'resp': resp,
-  'total_posts': resp['blog']['total_posts'],
-  'start': offset,
-  'end': offset + len(resp['posts'])
-  }
+# def getWithOffset(name, offset):
+#   resp = tumblrClient.posts(name, offset=offset)
+#   print(resp)
+#   photos = []
+#   if 'posts' in resp:
+#     for post in resp['posts']:
+#       if 'photos' in post:
+#         for photo in post['photos']:
+#           photos.append({'url': photo['original_size']['url']})
+#   return {
+#   'photos': photos,
+#   'resp': resp,
+#   'total_posts': resp['blog']['total_posts'],
+#   'start': offset,
+#   'end': offset + len(resp['posts'])
+#   }
 
-@app.route('/tumblr/posts', methods=['GET'])
-def tumblr_posts():
-  name = request.args.get('name')
-  print("name: %s" % (name))
+# @app.route('/tumblr/posts', methods=['GET'])
+# def tumblr_posts():
+#   name = request.args.get('name')
+#   print("name: %s" % (name))
 
-  offset = request.args.get('offset') or 0
-  print("offset: %s" % (offset))
+#   offset = request.args.get('offset') or 0
+#   print("offset: %s" % (offset))
 
-  photos = getWithOffset(name, int(offset))
+#   photos = getWithOffset(name, int(offset))
 
-  return jsonify(photos)
+#   return jsonify(photos)
 
 
 import hashlib
@@ -85,6 +85,13 @@ class MyClient(Client):
         return hashlib.md5(text.encode()).hexdigest()
 
 from instagram_web_api import Client, ClientCompatPatch, ClientError, ClientLoginError
+
+@app.route('/instagram/set_url', methods=['GET'])
+def instagram_set_url():
+  name = request.args.get('name')
+  eo.set_url('http://eo1.blackmad.com/app/tumblr/index.html?instagram=true&viz=clean&hideText=no&interval=15m&name=' + name)
+  return 'okay, cool, hope that worked'
+
 
 @app.route('/instagram/posts', methods=['GET'])
 def instagram_posts():

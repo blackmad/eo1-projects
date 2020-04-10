@@ -1,0 +1,17 @@
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<input type="text" name="name" placeholder="instagram handle" id="name"/>
+<input type="button" id="submit" name="submit" value="submit">
+
+<script>
+  $('#submit').click(() => {
+    let value = $('#name').val();
+    value = value.split('?')[0]
+    value = value.replace('https://www.instagram.com/', '');
+    value = value.replace('/', '');
+    value = value.replace('/', '');
+    window.location = '/instagram/set_url?name=' + value;
+  })
+</script>

@@ -44,3 +44,5 @@ images/
 
 tumblrClient.py
 node_modules
+
+.credentials
