@@ -201,6 +201,13 @@ def send_app(path):
  print('trying to send ' + path)
  return send_from_directory('app', path)
 
+
+@nocache
+@app.route('/')
+def send_index():
+  print('index')
+  return send_from_directory('app', 'index.html')
+
 @app.route('/proxy/<path:url>')
 def home(url):
   if 'gif' in url:
