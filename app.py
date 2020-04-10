@@ -89,8 +89,9 @@ from instagram_web_api import Client, ClientCompatPatch, ClientError, ClientLogi
 @app.route('/instagram/set_url', methods=['GET'])
 def instagram_set_url():
   name = request.args.get('name')
-  eo.set_url('http://eo1.blackmad.com/app/tumblr/index.html?instagram=true&viz=clean&hideText=no&interval=15m&name=' + name)
-  return 'okay, cool, hope that worked'
+  url = 'http://eo1.blackmad.com/app/tumblr/index.html?instagram=true&viz=clean&hideText=no&interval=15m&name=' + name
+  eo.set_url(url);
+  return 'okay, cool, hope that worked, set to ' + url
 
 
 @app.route('/instagram/posts', methods=['GET'])
