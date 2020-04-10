@@ -84,7 +84,7 @@ def tumblr_posts():
 @app.route('/tumblr/set_url', methods=['GET'])
 def tumblr_set_url():
   name = request.args.get('name')
-  url = 'http://eo1.blackmad.com/app/tumblr/index.html?tumblr=true&viz=clean&hideText=no&interval=15m&name=' + name
+  url = 'http://eo1.blackmad.com/app/main/index.html?tumblr=true&viz=clean&hideText=no&interval=15m&name=' + name
   eo.set_url(url);
   return 'okay, cool, hope that worked, set to ' + url
 
@@ -107,7 +107,7 @@ from instagram_web_api import Client, ClientCompatPatch, ClientError, ClientLogi
 @app.route('/instagram/set_url', methods=['GET'])
 def instagram_set_url():
   name = request.args.get('name')
-  url = 'http://eo1.blackmad.com/app/tumblr/index.html?instagram=true&viz=clean&hideText=no&interval=15m&name=' + name
+  url = 'http://eo1.blackmad.com/app/main/index.html?instagram=true&viz=clean&hideText=no&interval=15m&name=' + name
   eo.set_url(url);
   return 'okay, cool, hope that worked, set to ' + url
 
@@ -193,7 +193,7 @@ def twitter_posts():
 @app.route('/twitter/set_url', methods=['GET'])
 def twitter_set_url():
   name = request.args.get('name')
-  url = 'http://eo1.blackmad.com/app/tumblr/index.html?twitter=true&viz=clean&hideText=no&interval=15m&name=' + name
+  url = 'http://eo1.blackmad.com/app/main/index.html?twitter=true&viz=clean&hideText=no&interval=15m&name=' + name
   eo.set_url(url);
   return 'okay, cool, hope that worked, set to ' + url
 
