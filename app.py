@@ -55,7 +55,6 @@ tumblrClient = pytumblr.TumblrRestClient(
 
 def getWithOffset(name, offset):
   resp = tumblrClient.posts(name, offset=offset)
-  print(resp)
   photos = []
   if 'posts' in resp:
     for post in resp['posts']:
