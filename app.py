@@ -160,11 +160,12 @@ def get_tweets(api=None, screen_name=None):
             earliest_tweet = new_earliest
             print("getting tweets before:", earliest_tweet)
             timeline += tweets
+            break
 
     return {
       'photos': photos,
-      'start': very_earliest_tweet,
-      'end': latest_tweet
+      'start': str(very_earliest_tweet),
+      'end': str(latest_tweet)
     }
 
 @app.route('/twitter/posts', methods=['GET'])
