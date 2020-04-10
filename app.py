@@ -82,6 +82,13 @@ def tumblr_posts():
 
   return jsonify(photos)
 
+@app.route('/tumblr/set_url', methods=['GET'])
+def tumblr_set_url():
+  name = request.args.get('name')
+  url = 'http://eo1.blackmad.com/app/tumblr/index.html?tumblr=true&viz=clean&hideText=no&interval=15m&name=' + name
+  eo.set_url(url);
+  return 'okay, cool, hope that worked, set to ' + url
+
 
 import hashlib
 import string

@@ -32,3 +32,20 @@
     window.location = '/twitter/set_url?name=' + value;
   })
 </script>
+
+<hr/>
+
+<input type="text" name="name" placeholder="tumblr handle" id="tumblrName"/>
+<input type="button" id="submitTumblr" name="submit" value="submit">
+
+<script>
+  $('#submitTumblr').click(() => {
+    let value = $('#tumblrName').val();
+    value = value.split('?')[0]
+    value = value.replace('https://tumblr.com/', '');
+    value = value.replace('https://www.tumblr.com/', '');
+    value = value.replace('/', '');
+    value = value.replace('/', '');
+    window.location = '/tumblr/set_url?name=' + value;
+  })
+</script>
