@@ -11,3 +11,13 @@ other ideas
 
 useful links
 http://localhost:5000/app/twitter/index.html?viz=embed&q=pantone%20colors&interval=10s
+
+
+
+## personal deployment notes
+docker build -t eo1 .;
+
+docker stop eo1; docker rm eo1;
+docker run -d \
+  -e VIRTUAL_HOST=eo1.blackmad.com,eo2.blackmad.com \
+  --name=eo1 eo1
